@@ -25,7 +25,7 @@ public class NeighborConstraint implements Constraint{
           return neighbor;
         }
         return Arrays.stream(neighbor)
-            .filter(tile -> !invalidNeighbors.contains(tile.getEdgeDown()))
+            .filter(tile -> invalidNeighbors.contains(tile.getEdgeDown()))
             .toList()
             .toArray(new Tile[0]);
       }
@@ -34,7 +34,7 @@ public class NeighborConstraint implements Constraint{
           return neighbor;
         }
         return Arrays.stream(neighbor)
-            .filter(tile -> !invalidNeighbors.contains(tile.getEdgeLeft()))
+            .filter(tile -> invalidNeighbors.contains(tile.getEdgeLeft()))
             .toList()
             .toArray(new Tile[0]);
       }
@@ -43,7 +43,7 @@ public class NeighborConstraint implements Constraint{
           return neighbor;
         }
         return Arrays.stream(neighbor)
-            .filter(tile -> !invalidNeighbors.contains(tile.getEdgeUp()))
+            .filter(tile -> invalidNeighbors.contains(tile.getEdgeUp()))
             .toList()
             .toArray(new Tile[0]);
       }
@@ -52,7 +52,7 @@ public class NeighborConstraint implements Constraint{
           return neighbor;
         }
         return Arrays.stream(neighbor)
-            .filter(tile -> !invalidNeighbors.contains(tile.getEdgeRight()))
+            .filter(tile -> invalidNeighbors.contains(tile.getEdgeRight()))
             .toList()
             .toArray(new Tile[0]);
       }

@@ -79,7 +79,7 @@ public class WaveFunctionCollapse {
 
   private Coordinate getNextCoordinate() {
     // Take coordinate from the stack
-    System.out.println("Stack size: " + stack.size());
+    //System.out.println("Stack size: " + stack.size());
     if (stack.size() > 0) {
       finishedCells++;
       return stack.pop();
@@ -131,8 +131,10 @@ public class WaveFunctionCollapse {
       for (int j = 0; j < map[i].length; j++) {
         if (map[i][j].length != 1) {
           throw new RuntimeException("Expected entropy of 1 at " + i + ":" + j + ". Got " + map[i][j].length);
+//          outMap[i][j] = null;
+        } else {
+          outMap[i][j] = map[i][j][0];
         }
-        outMap[i][j] = map[i][j][0];
       }
     }
 
@@ -172,21 +174,23 @@ public class WaveFunctionCollapse {
 
   private List<Constraint> loadConstraints() {
     return List.of(
-      new NeighborConstraint(FLOOR, Set.of(EARTH, TREE, WATER, GRASS, ROAD, ROAD_UP, ROAD_RIGHT, ROAD_DOWN, ROAD_LEFT, SHORE_UP, SHORE_RIGHT, SHORE_DOWN, SHORE_LEFT)),
-      new NeighborConstraint(EARTH, Set.of(FLOOR, TREE, WATER, GRASS, ROAD, ROAD_UP, ROAD_RIGHT, ROAD_DOWN, ROAD_LEFT, SHORE_UP, SHORE_RIGHT, SHORE_DOWN, SHORE_LEFT)),
-      new NeighborConstraint(TREE, Set.of(FLOOR, EARTH, WALL, WATER, ROAD, ROAD_UP, ROAD_RIGHT, ROAD_DOWN, ROAD_LEFT, SHORE_UP, SHORE_RIGHT, SHORE_DOWN, SHORE_LEFT)),
-      new NeighborConstraint(WALL, Set.of(TREE, WATER, ROAD, ROAD_UP, ROAD_RIGHT, ROAD_DOWN, ROAD_LEFT, SHORE_UP, SHORE_RIGHT, SHORE_DOWN, SHORE_LEFT)),
-      new NeighborConstraint(WATER, Set.of(FLOOR, EARTH, TREE, WALL, GRASS, ROAD, ROAD_UP, ROAD_RIGHT, ROAD_DOWN, ROAD_LEFT, SHORE_UP, SHORE_RIGHT, SHORE_DOWN, SHORE_LEFT)),
-      new NeighborConstraint(GRASS, Set.of(FLOOR, EARTH, WATER, ROAD, ROAD_UP, ROAD_RIGHT, ROAD_DOWN, ROAD_LEFT, SHORE_UP, SHORE_RIGHT, SHORE_DOWN, SHORE_LEFT)),
-      new NeighborConstraint(ROAD, Set.of(FLOOR, EARTH, TREE, WALL, WATER, GRASS, ROAD_UP, ROAD_RIGHT, ROAD_DOWN, ROAD_LEFT, SHORE_UP, SHORE_RIGHT, SHORE_DOWN, SHORE_LEFT)),
-      new NeighborConstraint(ROAD_UP, Set.of(FLOOR, EARTH, TREE, WALL, WATER, GRASS, ROAD, ROAD_RIGHT, ROAD_DOWN, ROAD_LEFT, SHORE_UP, SHORE_RIGHT, SHORE_DOWN, SHORE_LEFT)),
-      new NeighborConstraint(ROAD_RIGHT, Set.of(FLOOR, EARTH, TREE, WALL, WATER, GRASS, ROAD, ROAD_UP, ROAD_DOWN, ROAD_LEFT, SHORE_UP, SHORE_RIGHT, SHORE_DOWN, SHORE_LEFT)),
-      new NeighborConstraint(ROAD_DOWN, Set.of(FLOOR, EARTH, TREE, WALL, WATER, GRASS, ROAD, ROAD_UP, ROAD_RIGHT, ROAD_LEFT, SHORE_UP, SHORE_RIGHT, SHORE_DOWN, SHORE_LEFT)),
-      new NeighborConstraint(ROAD_LEFT, Set.of(FLOOR, EARTH, TREE, WALL, WATER, GRASS, ROAD, ROAD_UP, ROAD_RIGHT, ROAD_DOWN, SHORE_UP, SHORE_RIGHT, SHORE_DOWN, SHORE_LEFT)),
-      new NeighborConstraint(SHORE_UP, Set.of(FLOOR, EARTH, TREE, WALL, WATER, GRASS, ROAD, ROAD_UP, ROAD_RIGHT, ROAD_DOWN, ROAD_LEFT, SHORE_RIGHT, SHORE_DOWN, SHORE_LEFT)),
-      new NeighborConstraint(SHORE_RIGHT, Set.of(FLOOR, EARTH, TREE, WALL, WATER, GRASS, ROAD, ROAD_UP, ROAD_RIGHT, ROAD_DOWN, ROAD_LEFT, SHORE_UP, SHORE_DOWN, SHORE_LEFT)),
-      new NeighborConstraint(SHORE_DOWN, Set.of(FLOOR, EARTH, TREE, WALL, WATER, GRASS, ROAD, ROAD_UP, ROAD_RIGHT, ROAD_DOWN, ROAD_LEFT, SHORE_UP, SHORE_RIGHT, SHORE_LEFT)),
-      new NeighborConstraint(SHORE_LEFT, Set.of(FLOOR, EARTH, TREE, WALL, WATER, GRASS, ROAD, ROAD_UP, ROAD_RIGHT, ROAD_DOWN, ROAD_LEFT, SHORE_UP, SHORE_RIGHT, SHORE_DOWN))
+      new NeighborConstraint(FLOOR, Set.of(FLOOR, WALL)),
+      new NeighborConstraint(EARTH, Set.of(EARTH, WALL)),
+      new NeighborConstraint(TREE, Set.of(TREE, GRASS)),
+      new NeighborConstraint(WALL, Set.of(WALL, FLOOR, EARTH, GRASS)),
+      new NeighborConstraint(WATER, Set.of(WATER)),
+      new NeighborConstraint(GRASS, Set.of(GRASS, TREE, SHORE, WALL)),
+      new NeighborConstraint(ROAD, Set.of(ROAD, DITCH)),
+      new NeighborConstraint(DITCH, Set.of(ROAD)),
+      new NeighborConstraint(DITCH_UP, Set.of(DITCH_UP)),
+      new NeighborConstraint(DITCH_RIGHT, Set.of(DITCH_RIGHT)),
+      new NeighborConstraint(DITCH_DOWN, Set.of(DITCH_DOWN)),
+      new NeighborConstraint(DITCH_LEFT, Set.of(DITCH_LEFT)),
+      new NeighborConstraint(SHORE, Set.of(GRASS)),
+      new NeighborConstraint(SHORE_UP, Set.of(SHORE_UP)),
+      new NeighborConstraint(SHORE_RIGHT, Set.of(SHORE_RIGHT)),
+      new NeighborConstraint(SHORE_DOWN, Set.of(SHORE_DOWN)),
+      new NeighborConstraint(SHORE_LEFT, Set.of(SHORE_LEFT))
     );
   }
 
