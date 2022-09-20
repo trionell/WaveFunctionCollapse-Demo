@@ -51,19 +51,19 @@ public class Player  extends Entity {
     if (keyHandler.upPressed || keyHandler.downPressed || keyHandler.leftPressed || keyHandler.rightPressed) {
       if(keyHandler.upPressed) {
         direction = "up";
-        y -= speed;
+        y -= speed * (keyHandler.sprinting ? 2 : 1);
       }
       if(keyHandler.downPressed) {
         direction = "down";
-        y += speed;
+        y += speed * (keyHandler.sprinting ? 2 : 1);
       }
       if(keyHandler.leftPressed) {
         direction = "left";
-        x -= speed;
+        x -= speed * (keyHandler.sprinting ? 2 : 1);
       }
       if(keyHandler.rightPressed) {
         direction = "right";
-        x += speed;
+        x += speed * (keyHandler.sprinting ? 2 : 1);
       }
 
       spriteCounter++;

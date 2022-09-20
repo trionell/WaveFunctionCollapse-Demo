@@ -44,50 +44,27 @@ public class WaveFunctionCollapse {
       Coordinate neighborLeft = new Coordinate(currentCellCoords.col - 1, currentCellCoords.row);
       Coordinate neighborRight = new Coordinate(currentCellCoords.col + 1, currentCellCoords.row);
 
-      if (inside(neighborUp, cols, rows)) {
-        if (map[neighborUp.col][neighborUp.row].length > 1) {
-          for (Constraint constraint : constraints) {
-            map[neighborUp.col][neighborUp.row] = constraint.apply(map[currentCellCoords.col()][currentCellCoords.row][0], map[neighborUp.col][neighborUp.row], Direction.UP);
-          }
-          if (map[neighborUp.col][neighborUp.row].length == 1) {
-            stack.push(neighborUp);
-          }
-        }
-      }
-      if (inside(neighborDown, cols, rows)) {
-        if (map[neighborDown.col][neighborDown.row].length > 1) {
-          for (Constraint constraint : constraints) {
-            map[neighborDown.col][neighborDown.row] = constraint.apply(map[currentCellCoords.col()][currentCellCoords.row][0], map[neighborDown.col][neighborDown.row], Direction.DOWN);
-          }
-          if (map[neighborDown.col][neighborDown.row].length == 1) {
-            stack.push(neighborDown);
-          }
-        }
-      }
-      if (inside(neighborLeft, cols, rows)) {
-        if (map[neighborLeft.col][neighborLeft.row].length > 1) {
-          for (Constraint constraint : constraints) {
-            map[neighborLeft.col][neighborLeft.row] = constraint.apply(map[currentCellCoords.col()][currentCellCoords.row][0], map[neighborLeft.col][neighborLeft.row], Direction.LEFT);
-          }
-          if (map[neighborLeft.col][neighborLeft.row].length == 1) {
-            stack.push(neighborLeft);
-          }
-        }
-      }
-      if (inside(neighborRight, cols, rows)) {
-        if (map[neighborRight.col][neighborRight.row].length > 1) {
-          for (Constraint constraint : constraints) {
-            map[neighborRight.col][neighborRight.row] = constraint.apply(map[currentCellCoords.col()][currentCellCoords.row][0], map[neighborRight.col][neighborRight.row], Direction.RIGHT);
-          }
-          if (map[neighborRight.col][neighborRight.row].length == 1) {
-            stack.push(neighborRight);
-          }
-        }
-      }
+      applyConstraints(neighborUp, currentCellCoords, Direction.UP);
+      applyConstraints(neighborDown, currentCellCoords, Direction.DOWN);
+      applyConstraints(neighborLeft, currentCellCoords, Direction.LEFT);
+      applyConstraints(neighborRight, currentCellCoords, Direction.RIGHT);
 
     }
 
     return convertToFinishedMap(map);
+  }
+
+  private void applyConstraints(Coordinate neighbor, Coordinate currentCellCoords, Direction direction) {
+    if (inside(neighbor, cols, rows)) {
+      if (map[neighbor.col][neighbor.row].length > 1) {
+        for (Constraint constraint : constraints) {
+          map[neighbor.col][neighbor.row] = constraint.apply(map[currentCellCoords.col()][currentCellCoords.row][0], map[neighbor.col][neighbor.row], direction);
+        }
+        if (map[neighbor.col][neighbor.row].length == 1) {
+          stack.push(neighbor);
+        }
+      }
+    }
   }
 
   private void printMap() {
